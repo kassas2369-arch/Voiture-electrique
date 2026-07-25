@@ -1,0 +1,391 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#0a0e27">
+<title>دليل السيارات الكهربائية - تونس</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:Tahoma,Arial,sans-serif;background:#0a0e27;color:#fff;min-height:100vh;padding-bottom:80px}
+.header{background:linear-gradient(135deg,#0a0e27,#1a1f4a);padding:14px;position:sticky;top:0;z-index:100;border-bottom:1px solid #2a2f5e}
+.app-title{display:flex;align-items:center;gap:8px;margin-bottom:10px}
+.logo{width:32px;height:32px;background:linear-gradient(135deg,#00d97e,#00b4d8);border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:18px}
+h1{font-size:16px;background:linear-gradient(90deg,#00d97e,#00b4d8);-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+.lang-toggle{margin-right:auto;background:#1a1f4a;border:1px solid #2a2f5e;color:#fff;padding:5px 10px;border-radius:6px;font-size:11px;cursor:pointer}
+.search-box{position:relative;margin-bottom:10px}
+.search-box input{width:100%;background:#1a1f4a;border:1px solid #2a2f5e;color:#fff;padding:8px 12px 8px 32px;border-radius:8px;font-size:13px;outline:none}
+.search-icon{position:absolute;left:10px;top:50%;transform:translateY(-50%);color:#8b92b8;font-size:14px}
+.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:5px;margin-bottom:8px}
+.stat-card{background:#1a1f4a;padding:6px;border-radius:6px;text-align:center;border:1px solid #2a2f5e}
+.stat-value{font-size:14px;font-weight:800;color:#00d97e}
+.stat-label{font-size:9px;color:#8b92b8;margin-top:1px}
+.bat-stats{display:flex;gap:4px;margin-bottom:8px;font-size:9px}
+.bat-stats div{flex:1;padding:3px 6px;border-radius:5px;display:flex;justify-content:space-between;align-items:center}
+.b-lfp{background:rgba(0,217,126,0.1);border:1px solid #00d97e}
+.b-nmc{background:rgba(0,180,216,0.1);border:1px solid #00b4d8}
+.tabs{display:flex;gap:4px;margin-bottom:8px;overflow-x:auto;scrollbar-width:none}
+.tabs::-webkit-scrollbar{display:none}
+.tab{background:#1a1f4a;border:1px solid #2a2f5e;color:#8b92b8;padding:5px 10px;border-radius:14px;font-size:10px;white-space:nowrap;cursor:pointer}
+.tab.active{background:#00d97e;color:#0a0e27;border-color:#00d97e}
+.filters{background:#131836;border:1px solid #2a2f5e;border-radius:8px;padding:8px;margin-bottom:10px}
+.filter-row{display:flex;align-items:center;gap:6px;margin-bottom:6px}
+.filter-row:last-child{margin-bottom:0}
+.filter-row label{font-size:10px;color:#8b92b8;min-width:50px}
+.filter-row input[type=range]{flex:1;accent-color:#00d97e;height:6px}
+.filter-row .value{font-size:10px;color:#00d97e;font-weight:700;min-width:40px;text-align:left}
+.filter-select{background:#1a1f4a;border:1px solid #2a2f5e;color:#fff;padding:4px 6px;border-radius:5px;font-size:10px;flex:1;outline:none}
+.car-list{padding:0 10px}
+.car-card{background:linear-gradient(135deg,#1a1f4a,#131836);border:1px solid #2a2f5e;border-radius:10px;padding:10px;margin-bottom:8px;position:relative;cursor:pointer}
+.car-card::before{content:'';position:absolute;top:0;right:0;width:3px;height:100%;background:linear-gradient(180deg,#00d97e,#00b4d8)}
+.car-h{display:flex;justify-content:space-between;align-items:start;margin-bottom:6px}
+.car-brand{font-size:9px;color:#00b4d8;font-weight:700}
+.car-name{font-size:14px;font-weight:800;margin-top:1px}
+.car-cat{background:rgba(0,217,126,0.15);color:#00d97e;padding:2px 5px;border-radius:4px;font-size:8px;font-weight:700}
+.badge{display:inline-block;padding:1px 4px;border-radius:3px;font-size:8px;font-weight:700;margin-top:2px}
+.b-l{background:rgba(0,217,126,0.2);color:#00d97e}
+.b-n{background:rgba(0,180,216,0.2);color:#00b4d8}
+.car-price{font-size:14px;font-weight:800;color:#ffd60a;text-align:left}
+.car-specs{display:grid;grid-template-columns:repeat(3,1fr);gap:3px;margin-top:6px}
+.spec{background:rgba(0,0,0,0.3);padding:4px 2px;border-radius:4px;text-align:center}
+.spec-i{font-size:10px}
+.spec-v{font-size:10px;font-weight:700}
+.spec-l{font-size:7px;color:#8b92b8}
+.rating{display:flex;align-items:center;gap:3px;margin-top:6px;padding-top:6px;border-top:1px solid #2a2f5e}
+.stars{color:#ffd60a;font-size:10px}
+.rating-text{font-size:9px;color:#8b92b8}
+.btns{display:flex;gap:3px;margin-top:6px}
+.btn{flex:1;background:#1a1f4a;border:1px solid #2a2f5e;color:#fff;padding:5px;border-radius:5px;font-size:9px;font-weight:700;cursor:pointer}
+.btn-p{background:#00d97e;color:#0a0e27;border-color:#00d97e}
+.btn-c.active{background:#00b4d8;color:#0a0e27;border-color:#00b4d8}
+.modal{display:none;position:fixed;inset:0;background:rgba(0,0,0,0.9);z-index:1000;align-items:flex-end;justify-content:center}
+.m-content{background:#0a0e27;width:100%;max-width:600px;max-height:92vh;border-radius:14px 14px 0 0;overflow-y:auto;padding:14px;border-top:2px solid #00d97e;position:relative}
+.m-handle{width:32px;height:3px;background:#2a2f5e;border-radius:2px;margin:0 auto 10px}
+.m-close{position:absolute;top:10px;left:10px;background:#1a1f4a;border:none;color:#fff;width:26px;height:26px;border-radius:50%;font-size:13px;cursor:pointer}
+.d-section{background:#1a1f4a;border-radius:8px;padding:8px;margin-bottom:6px;border:1px solid #2a2f5e}
+.d-row{display:flex;justify-content:space-between;padding:3px 0;font-size:11px;border-bottom:1px solid rgba(255,255,255,0.05)}
+.d-label{color:#8b92b8}
+.d-value{font-weight:700}
+.rec-card{background:linear-gradient(135deg,#00d97e,#00b4d8);color:#0a0e27;padding:10px;border-radius:10px;margin-bottom:6px}
+.rec-title{font-size:13px;font-weight:800;margin-bottom:4px}
+.rec-text{font-size:11px;line-height:1.4}
+.bottom-nav{position:fixed;bottom:0;left:0;right:0;background:#131836;border-top:1px solid #2a2f5e;display:flex;padding:4px 0;z-index:50}
+.nav-item{flex:1;display:flex;flex-direction:column;align-items:center;gap:0;background:none;border:none;color:#8b92b8;font-size:8px;cursor:pointer;padding:3px 0;font-weight:600}
+.nav-item.active{color:#00d97e}
+.nav-icon{font-size:16px}
+.empty{text-align:center;padding:30px 10px;color:#8b92b8}
+.empty-icon{font-size:32px;margin-bottom:6px}
+.bar-progress{height:6px;background:rgba(255,255,255,0.1);border-radius:3px;overflow:hidden;margin:2px 0 8px}
+.bar-fill{height:100%;border-radius:3px}
+</style>
+</head>
+<body>
+<div class="header">
+<div class="app-title">
+<div class="logo">⚡</div>
+<h1>دليل السيارات الكهربائية - تونس</h1>
+<button class="lang-toggle" onclick="toggleLang()">FR/AR</button>
+</div>
+<div class="search-box">
+<span class="search-icon">🔍</span>
+<input type="text" id="q" placeholder="ابحث..." oninput="render()">
+</div>
+<div class="stats">
+<div class="stat-card"><div class="stat-value" id="s1">0</div><div class="stat-label">موديل</div></div>
+<div class="stat-card"><div class="stat-value" id="s2">0</div><div class="stat-label">من د.ت (بعد البونص)</div></div>
+<div class="stat-card"><div class="stat-value" id="s3">0</div><div class="stat-label">كم أفضل مدى</div></div>
+</div>
+<div style="background:rgba(0,217,126,0.1);border:1px solid #00d97e;padding:6px 10px;border-radius:6px;font-size:10px;text-align:center;color:#00d97e;margin-bottom:8px;font-weight:700">💰 الأسعار شاملة البونص البيئي 10,000 د.ت (TVA 7%)</div>
+<div style="background:rgba(0,180,216,0.1);border:1px solid #00b4d8;padding:4px 8px;border-radius:5px;font-size:9px;text-align:center;color:#00b4d8;margin-bottom:8px">🔄 آخر تحديث: <b id="lastUpdate">2026-07-21 08:00</b> · <span style="color:#8b92b8">يومياً 8:00</span></div>
+<div class="bat-stats">
+<div class="b-lfp"><span>🟢 LFP</span><span id="sLFP">0</span></div>
+<div class="b-nmc"><span>🔵 NMC</span><span id="sNMC">0</span></div>
+</div>
+<div class="tabs" id="tabs"></div>
+<div class="filters">
+<div class="filter-row">
+<label>السعر</label>
+<input type="range" id="fP" min="16000" max="500000" step="5000" value="500000" oninput="updF();render()">
+<span class="value" id="vP">500K</span>
+</div>
+<div class="filter-row">
+<label>المدى</label>
+<input type="range" id="fR" min="100" max="800" step="20" value="100" oninput="updF();render()">
+<span class="value" id="vR">100+</span>
+</div>
+<div class="filter-row">
+<label>الماركة</label>
+<select id="fB" class="filter-select" onchange="render()"><option value="all">الكل</option></select>
+</div>
+<div class="filter-row">
+<label>البطارية</label>
+<select id="fT" class="filter-select" onchange="render()">
+<option value="all">الكل</option>
+<option value="LFP">🟢 LFP</option>
+<option value="NMC">🔵 NMC</option>
+</select>
+</div>
+</div>
+</div>
+<div class="car-list" id="list"></div>
+<div class="bottom-nav">
+<button class="nav-item active" onclick="go('home',this)"><span class="nav-icon">🏠</span><span>الرئيسية</span></button>
+<button class="nav-item" onclick="go('rec',this)"><span class="nav-icon">💡</span><span>توصية</span></button>
+<button class="nav-item" onclick="go('info',this)"><span class="nav-icon">ℹ️</span><span>معلومات</span></button>
+</div>
+<div class="modal" id="modal" onclick="if(event.target===this)closeM()">
+<div class="m-content" id="mContent"></div>
+</div>
+<script>
+var CARS=[
+{id:1,brand:"Bako",name:"Bee",cat:"city",price:18264,bat:18,range:150,power:30,charge:"3.3 kW AC",warranty:"3 ans",bw:"5 ans",seats:2,btype:"LFP",pros:"Prix, compacte",cons:"Petite batterie, 2 places"},
+{id:2,brand:"Dongfeng",name:"Box",cat:"city",price:49990,bat:31,range:230,power:70,charge:"6.6 kW AC",warranty:"5 ans",bw:"8 ans",seats:4,btype:"LFP",pros:"Prix, garantie",cons:"Marque chinoise"},
+{id:3,brand:"Geely",name:"EX2",cat:"city",price:52000,bat:39.4,range:325,power:90,charge:"6.6 kW AC",warranty:"5 ans",bw:"8 ans",seats:5,btype:"LFP",pros:"4m+ espace, 325 km",cons:"Charge lente"},
+{id:4,brand:"BYD",name:"Dolphin Surf",cat:"city",price:51000,bat:30,range:300,power:55,charge:"7 kW AC",warranty:"6 ans/150K",bw:"8 ans",seats:4,btype:"LFP",pros:"5 NCAP, BYD",cons:"Charge lente"},
+{id:5,brand:"MG",name:"4 Urban Confort",cat:"compact",price:54950,bat:43,range:350,power:170,charge:"11kW AC / 88kW DC",warranty:"7 ans/150K",bw:"8 ans",seats:5,btype:"LFP",pros:"Excellent prix, LFP",cons:"Charge DC 88 kW"},
+{id:6,brand:"MG",name:"4 Urban Luxury",cat:"compact",price:59950,bat:54,range:430,power:170,charge:"11kW AC / 88kW DC",warranty:"7 ans/150K",bw:"8 ans",seats:5,btype:"LFP",pros:"430 km, pompe chaleur",cons:"Charge DC 88 kW"},
+{id:7,brand:"Chery",name:"i03 4x2",cat:"suv",price:76900,bat:65.7,range:430,power:181,charge:"11kW AC / 80kW DC",warranty:"5 ans/150K",bw:"8 ans/200K",seats:5,btype:"LFP",pros:"LFP 65.7 kWh, borne offerte",cons:"Première Chery 100% EV en TN (avril 2026)",risk:75,launchTN:"2026-04",network:"limitée",resale:55,reliability:"données insuffisantes (3 mois)"},
+{id:8,brand:"MG",name:"S5",cat:"suv",price:84950,bat:64,range:430,power:170,charge:"11kW AC / 120kW DC",warranty:"7 ans/150K",bw:"8 ans",seats:5,btype:"NMC",pros:"SUV abordable, 430 km",cons:"Design classique"},
+{id:9,brand:"Geely",name:"EX5",cat:"suv",price:92000,bat:60.2,range:430,power:218,charge:"11kW AC / 100kW DC",warranty:"5 ans",bw:"8 ans",seats:5,btype:"LFP",pros:"218 ch, LFP durable",cons:"Marque peu connue TN"},
+{id:10,brand:"Geely",name:"EX5 Hybride EM-i",cat:"suv",price:86800,bat:18.4,range:1000,power:260,charge:"Type 2 AC",warranty:"7 ans/200K",bw:"8 ans",seats:5,btype:"LFP",pros:"1000 km!, 80 km EV",cons:"Hybride pas 100% EV"},
+{id:11,brand:"BYD",name:"Dolphin",cat:"compact",price:94990,bat:44.9,range:405,power:95,charge:"7kW AC / 60kW DC",warranty:"6 ans/150K",bw:"8 ans",seats:5,btype:"LFP",pros:"5 NCAP, BYD leader",cons:"Charge DC 60 kW"},
+{id:12,brand:"Lynk & Co",name:"02",cat:"suv",price:99900,bat:66,range:430,power:272,charge:"11kW AC / 150kW DC",warranty:"5 ans",bw:"8 ans",seats:5,btype:"NMC",pros:"272 ch AWD, premium",cons:"Marque peu connue"},
+{id:13,brand:"Hyundai",name:"Kona Electric",cat:"suv",price:123900,bat:65,range:514,power:218,charge:"11kW AC / 100kW DC",warranty:"5 ans",bw:"8 ans",seats:5,btype:"NMC",pros:"514 km, fiabilité Hyundai",cons:"Prix élevé"},
+{id:14,brand:"BYD",name:"Atto 3",cat:"suv",price:123990,bat:60,range:420,power:204,charge:"11kW AC / 80kW DC",warranty:"6 ans/150K",bw:"8 ans",seats:5,btype:"LFP",pros:"5 NCAP, premium",cons:"Charge DC 80 kW"},
+{id:15,brand:"Volvo",name:"EX30",cat:"suv",price:124900,bat:69,range:460,power:272,charge:"11kW AC / 153kW DC",warranty:"4 ans/80K",bw:"8 ans/160K",seats:5,btype:"NMC",pros:"Sécurité Volvo, rapide",cons:"Garantie courte"},
+{id:16,brand:"XPENG",name:"G6 SR+",cat:"suv",price:114950,bat:66,range:435,power:258,charge:"11kW AC / 215kW DC",warranty:"5 ans/150K",bw:"8 ans/160K",seats:5,btype:"LFP",pros:"Charge 215 kW!, auto XNGP",cons:"Nouveau en TN (mai 2026)",risk:60,launchTN:"2026-05",network:"La Marsa uniquement",resale:60,reliability:"XPENG expérimentée en Chine/Europe"},
+{id:17,brand:"XPENG",name:"G9",cat:"luxury",price:169950,bat:98,range:570,power:313,charge:"11kW AC / 300kW DC",warranty:"5 ans/150K",bw:"8 ans/160K",seats:5,btype:"NMC",pros:"Charge 300 kW!, 570 km",cons:"Prix élevé"},
+{id:18,brand:"XPENG",name:"P7+ Long Range",cat:"luxury",price:127950,bat:76,range:710,power:245,charge:"11kW AC / 175kW DC",warranty:"5 ans/150K",bw:"8 ans/160K",seats:5,btype:"LFP",pros:"710 km record, aéro",cons:"Berline"},
+{id:19,brand:"IM Motors",name:"IM5 Standard",cat:"luxury",price:136900,bat:75,range:550,power:295,charge:"11kW AC / 150kW DC",warranty:"5 ans/150K",bw:"8 ans",seats:5,btype:"NMC",pros:"Berline 4.93m, premium SAIC",cons:"Réseau SAIC en cours (jan 2026)",risk:65,launchTN:"2026-01",network:"Aïn Zaghouan (bientôt Sousse/Sfax)",resale:55,reliability:"SAIC = géant automobile (mais IM neuf)"},
+{id:20,brand:"IM Motors",name:"IM5 Long Range",cat:"luxury",price:165900,bat:100,range:655,power:408,charge:"11kW AC / 150kW DC",warranty:"5 ans/150K",bw:"8 ans",seats:5,btype:"NMC",pros:"655 km, 408 ch",cons:"Réseau SAIC"},
+{id:21,brand:"IM Motors",name:"IM5 Performance",cat:"sport",price:219900,bat:100,range:620,power:778,charge:"11kW AC / 150kW DC",warranty:"5 ans/150K",bw:"8 ans",seats:5,btype:"NMC",pros:"778 ch, 0-100 en 3.2s",cons:"Prix très élevé"},
+{id:22,brand:"IM Motors",name:"IM6",cat:"suv",price:147900,bat:75,range:520,power:295,charge:"11kW AC / 150kW DC",warranty:"5 ans/150K",bw:"8 ans",seats:5,btype:"NMC",pros:"SUV Fastback premium",cons:"Réseau SAIC en extension",risk:65,launchTN:"2026-01",network:"Aïn Zaghouan (bientôt Sousse/Sfax)",resale:55,reliability:"SAIC expérimenté"},
+{id:23,brand:"Deepal",name:"S05",cat:"suv",price:79980,bat:56,range:410,power:175,charge:"11kW AC / 80kW DC",warranty:"5 ans/150K",bw:"8 ans",seats:5,btype:"LFP",pros:"Prix agressif, LFP",cons:"Nouveau en TN (fév 2026)",risk:70,launchTN:"2026-02",network:"réseau en construction",resale:50,reliability:"Changan (groupe) expérimenté en EV"},
+{id:24,brand:"Deepal",name:"S07",cat:"suv",price:103980,bat:68,range:520,power:218,charge:"11kW AC / 100kW DC",warranty:"5 ans/150K",bw:"8 ans",seats:5,btype:"LFP",pros:"520 km, 218 ch, LFP",cons:"Réseau SAV à construire",risk:68,launchTN:"2026-02",network:"réseau en construction",resale:52,reliability:"Changan expérimenté"},
+{id:25,brand:"Deepal",name:"G318",cat:"suv",price:125980,bat:80,range:500,power:430,charge:"11kW AC / 120kW DC",warranty:"5 ans/150K",bw:"8 ans",seats:5,btype:"LFP",pros:"4x4 430 ch, 80 kWh",cons:"Réseau à étendre",risk:68,launchTN:"2026-02",network:"réseau en construction",resale:52,reliability:"Changan (4x4 robuste)"},
+{id:26,brand:"Lynk & Co",name:"01",cat:"suv",price:102900,bat:70,range:450,power:261,charge:"11kW AC / 150kW DC",warranty:"5 ans",bw:"8 ans",seats:5,btype:"NMC",pros:"261 ch AWD, design",cons:"Marque peu connue"},
+{id:27,brand:"Lynk & Co",name:"08",cat:"luxury",price:132900,bat:102,range:580,power:408,charge:"11kW AC / 200kW DC",warranty:"5 ans",bw:"8 ans",seats:5,btype:"NMC",pros:"580 km, 102 kWh, AWD",cons:"Prix élevé"},
+{id:28,brand:"MG",name:"4 Luxury",cat:"compact",price:99950,bat:64,range:435,power:204,charge:"11kW AC / 135kW DC",warranty:"7 ans/150K",bw:"8 ans",seats:5,btype:"NMC",pros:"435 km, 204 ch, 135kW DC",cons:"SAV variable"},
+{id:29,brand:"MG",name:"Cyberster",cat:"sport",price:179950,bat:77,range:520,power:544,charge:"11kW AC / 150kW DC",warranty:"7 ans/150K",bw:"8 ans",seats:2,btype:"NMC",pros:"Roadster, 544 ch, 520 km",cons:"2 places, tarif"},
+{id:30,brand:"Hyundai",name:"Ioniq 5",cat:"suv",price:168950,bat:72,range:507,power:229,charge:"11kW AC / 220kW DC",warranty:"5 ans",bw:"8 ans",seats:5,btype:"NMC",pros:"Charge 220 kW, V2L, design",cons:"Prix"},
+{id:31,brand:"Hyundai",name:"Ioniq 6",cat:"luxury",price:199950,bat:77,range:614,power:325,charge:"11kW AC / 220kW DC",warranty:"5 ans",bw:"8 ans",seats:5,btype:"NMC",pros:"614 km record, aéro",cons:"Design polarisant"},
+{id:32,brand:"KIA",name:"EV6",cat:"suv",price:199980,bat:77,range:528,power:325,charge:"11kW AC / 233kW DC",warranty:"7 ans/150K",bw:"8 ans",seats:5,btype:"NMC",pros:"Charge 233 kW, garantie 7 ans",cons:"Prix"},
+{id:33,brand:"BYD",name:"Tang EV",cat:"suv",price:229990,bat:108,range:520,power:517,charge:"11kW AC / 120kW DC",warranty:"6 ans/150K",bw:"8 ans",seats:7,btype:"LFP",pros:"7 places, 517 ch, 108 kWh LFP",cons:"Lourd, prix"},
+{id:34,brand:"Volvo",name:"EC40",cat:"luxury",price:189900,bat:82,range:550,power:408,charge:"11kW AC / 200kW DC",warranty:"4 ans/80K",bw:"8 ans/160K",seats:5,btype:"NMC",pros:"Volvo sécurité, 550 km",cons:"Prix, garantie courte"},
+{id:35,brand:"Geely",name:"Geometry C",cat:"compact",price:110400,bat:53,range:400,power:163,charge:"11kW AC / 70kW DC",warranty:"5 ans",bw:"8 ans",seats:5,btype:"LFP",pros:"Bon prix, fiable",cons:"Charge lente 70 kW"},
+{id:36,brand:"Chery",name:"i03 4x4",cat:"suv",price:89900,bat:69.77,range:420,power:275,charge:"11kW AC / 80kW DC",warranty:"5 ans/150K",bw:"8 ans/200K",seats:5,btype:"LFP",pros:"275 ch 4x4, LFP 69.77 kWh",cons:"Lourd, charge 80 kW, marque EV récente",risk:72,launchTN:"2026-04",network:"limitée",resale:55,reliability:"données insuffisantes (3 mois)"},
+{id:37,brand:"MG",name:"S6 AWD XPower",cat:"suv",price:119950,bat:77,range:460,power:435,charge:"11kW AC / 150kW DC",warranty:"7 ans/150K",bw:"8 ans",seats:5,btype:"NMC",pros:"435 ch AWD, 460 km, sport",cons:"Prix, consommation"},
+{id:38,brand:"Voyah",name:"Free",cat:"luxury",price:189000,bat:106,range:560,power:490,charge:"11kW AC / 200kW DC",warranty:"5 ans",bw:"8 ans",seats:5,btype:"NMC",pros:"106 kWh, 490 ch, premium",cons:"Marque nouvelle en TN"},
+{id:39,brand:"Toyota",name:"bZ4X",cat:"suv",price:159900,bat:71,range:460,power:218,charge:"11kW AC / 150kW DC",warranty:"5 ans",bw:"8 ans/160K",seats:5,btype:"LFP",pros:"Fiabilité Toyota, LFP",cons:"Réseau Toyota EV en construction"}
+];
+var lang="ar",cat="all";
+function $(id){return document.getElementById(id)}
+function init(){
+// Prices in CARS are ALREADY after bonus 10,000 DT
+// originalPrice = price + 10,000 (before bonus)
+for(var i=0;i<CARS.length;i++){CARS[i].originalPrice=CARS[i].price+10000}
+buildTabs();buildBrands();updF();render();updStats();
+}
+function buildTabs(){
+var cats=[{k:"all",l:"الكل",i:"⭐"},{k:"city",l:"مدينة",i:"🚗"},{k:"compact",l:"مدمجة",i:"🚙"},{k:"suv",l:"SUV",i:"🚙"},{k:"luxury",l:"فاخرة",i:"💎"},{k:"sport",l:"رياضية",i:"🏎️"}];
+$("tabs").innerHTML=cats.map(function(c){return'<div class="tab '+(c.k===cat?"active":"")+'" onclick="setCat(\''+c.k+'\')">'+c.i+" "+c.l+"</div>"}).join("");
+}
+function buildBrands(){
+var bs=[];for(var i=0;i<CARS.length;i++){if(bs.indexOf(CARS[i].brand)<0)bs.push(CARS[i].brand)}
+bs.sort();
+$("fB").innerHTML="<option value='all'>الكل</option>"+bs.map(function(b){return"<option value='"+b+"'>"+b+"</option>"}).join("");
+}
+function setCat(c){cat=c;buildTabs();render()}
+function updF(){
+var p=$("fP").value;$("vP").textContent=p>=500000?"500K+":Math.round(p/1000)+"K";
+var r=$("fR").value;$("vR").textContent=r+"+";
+}
+function getF(){
+var q=$("q").value.toLowerCase();
+var p=parseInt($("fP").value);
+var r=parseInt($("fR").value);
+var b=$("fB").value;
+var t=$("fT").value;
+return CARS.filter(function(c){
+if(cat!=="all"&&c.cat!==cat)return false;
+if(c.price>p)return false;
+if(c.range<r)return false;
+if(b!=="all"&&c.brand!==b)return false;
+if(t!=="all"&&c.btype!==t)return false;
+if(q&&(c.brand+" "+c.name).toLowerCase().indexOf(q)<0)return false;
+return true;
+});
+}
+function rating(c){
+var s=(c.range*0.5+c.bat*2+(200000-c.price)/3000)/30;
+return Math.max(3,Math.min(5,s)).toFixed(1);
+}
+function render(){
+var list=$("list");
+var arr=getF();
+if(arr.length===0){list.innerHTML='<div class="empty"><div class="empty-icon">🔍</div><div>لا توجد نتائج</div></div>';return}
+list.innerHTML=arr.map(function(c){
+var rt=rating(c);
+var st="";for(var i=0;i<Math.round(rt);i++)st+="★";for(var i=0;i<5-Math.round(rt);i++)st+="☆";
+var badge=c.btype==="LFP"?'<span class="badge b-l">🟢 LFP</span>':'<span class="badge b-n">🔵 NMC</span>';
+return'<div class="car-card" onclick="show('+c.id+')">'+
+'<div class="car-h"><div><div class="car-brand">'+c.brand+'</div><div class="car-name">'+c.name+'</div>'+badge+'</div>'+
+'<div class="car-cat">'+catL(c.cat)+'</div></div>'+
+'<div class="car-price">'+c.price.toLocaleString()+' د.ت<div style="font-size:9px;color:#00d97e;font-weight:700;text-decoration:line-through;opacity:0.7">'+c.originalPrice.toLocaleString()+'</div><div style="font-size:8px;background:rgba(0,217,126,0.2);color:#00d97e;padding:1px 4px;border-radius:3px;display:inline-block;margin-top:2px">🎉 -10K بونص</div></div>'+
+'<div class="car-specs">'+
+'<div class="spec"><div class="spec-i">🔋</div><div class="spec-v">'+c.bat+' kWh</div><div class="spec-l">بطارية</div></div>'+
+'<div class="spec"><div class="spec-i">🛣️</div><div class="spec-v">'+c.range+' km</div><div class="spec-l">مدى</div></div>'+
+'<div class="spec"><div class="spec-i">⚡</div><div class="spec-v">'+c.power+' ch</div><div class="spec-l">قوة</div></div>'+
+'</div>'+
+'<div class="rating"><span class="stars">'+st+'</span><span class="rating-text">'+rt+'/5</span></div>'+
+'<div class="btns"><button class="btn btn-p" onclick="event.stopPropagation();show('+c.id+')">تفاصيل</button></div>'+
+'</div>';
+}).join("");
+}
+function catL(c){var m={city:"مدينة",compact:"مدمجة",suv:"SUV",luxury:"فاخرة",sport:"رياضية"};return m[c]||c}
+function updStats(){
+$("s1").textContent=CARS.length;
+var mn=CARS.reduce(function(a,b){return a.price<b.price?a:b});
+$("s2").textContent=Math.round(mn.price/1000)+"K";
+var mx=CARS.reduce(function(a,b){return a.range>b.range?a:b});
+$("s3").textContent=mx.range;
+var lfp=0,nmc=0;for(var i=0;i<CARS.length;i++){if(CARS[i].btype==="LFP")lfp++;else nmc++}
+$("sLFP").textContent=lfp+" موديل";
+$("sNMC").textContent=nmc+" موديل";
+}
+function show(id){
+var c=null;for(var i=0;i<CARS.length;i++)if(CARS[i].id===id){c=CARS[i];break}
+if(!c)return;
+var rt=rating(c);
+var st="";for(var i=0;i<Math.round(rt);i++)st+="★";for(var i=0;i<5-Math.round(rt);i++)st+="☆";
+var badge=c.btype==="LFP"?'<span class="badge b-l">🟢 LFP</span>':'<span class="badge b-n">🔵 NMC</span>';
+if(c.risk&&c.risk>=65)badge+=' <span class="badge" style="background:rgba(255,71,87,0.2);color:#ff4757">⚠️ مخاطرة</span>';
+else if(c.risk&&c.risk>=50)badge+=' <span class="badge" style="background:rgba(255,214,10,0.2);color:#ffd60a">🆕 جديد TN</span>';
+var riskCard="";
+var batCard=c.btype==="LFP"?
+'<div style="border:1px solid #00d97e;background:rgba(0,217,126,0.08)"><h3 style="color:#00d97e;font-size:12px;margin-bottom:6px">🔋 بطارية LFP (موصى به لتونس)</h3>'+
+'<div style="font-size:11px;line-height:1.6">✅ تتحمل الحر 60°C+<br>✅ عمر 3000-5000 دورة (15-20 سنة)<br>✅ أأمن (لا تشتعل)<br>✅ أرخص 20-30%<br>✅ بدون كوبالت (بيئي)<br><span style="color:#8b92b8">❌ أثقل / مدى أقل</span></div></div>':
+'<div style="border:1px solid #00b4d8;background:rgba(0,180,216,0.08)"><h3 style="color:#00b4d8;font-size:12px;margin-bottom:6px">🔋 بطارية NMC (مدى طويل)</h3>'+
+'<div style="font-size:11px;line-height:1.6">✅ كثافة طاقة أعلى<br>✅ مدى أطول<br>✅ أخف وزناً<br><span style="color:#ff4757">⚠️ تتدمر >45°C (مشكلة صيف TN)</span><br><span style="color:#ff4757">⚠️ عمر 1000-2000 دورة (8-12 سنة)</span><br><span style="color:#8b92b8">⚠️ اركن في الظل في الصيف</span></div></div>';
+var weather='<div class="d-section" style="border:1px solid #00b4d8"><h3 style="color:#00b4d8;font-size:12px;margin-bottom:6px">🌡️ أداء في الطقس التونسي</h3><div style="font-size:11px;line-height:1.6">☀️ صيف (35-45°C): <b style="color:#00d97e">'+(c.btype==="LFP"?"85-90%":"55-70%")+'</b> أداء<br>❄️ شتاء (5-15°C): <b style="color:#00d97e">'+(c.btype==="LFP"?"75-80%":"80-85%")+'</b> أداء<br>📏 مدى حقيقي: <b>'+Math.round(c.range*(c.btype==="LFP"?0.85:0.75))+' كم صيفاً</b></div></div>';
+if(c.risk){
+var riskColor=c.risk<40?"#00d97e":c.risk<65?"#ffd60a":"#ff4757";
+var riskLabel=c.risk<40?"مخاطر منخفضة ✅":c.risk<65?"مخاطر متوسطة ⚠️":"مخاطر عالية ❌";
+var resaleColor=c.resale<55?"#ff4757":c.resale<70?"#ffd60a":"#00d97e";
+var resaleLabel=c.resale<55?"ضعيفة (خسارة كبيرة)":c.resale<70?"متوسطة":"جيدة";
+riskCard='<div class="d-section" style="border:1px solid '+riskColor+';background:rgba(0,0,0,0.3)"><h3 style="color:'+riskColor+';font-size:13px;margin-bottom:8px">⚠️ تقييم المخاطر في تونس</h3>'+
+'<div style="font-size:11px;line-height:1.7">'+
+'<div style="margin-bottom:6px">📊 <b>مستوى المخاطرة:</b> <span style="color:'+riskColor+';font-weight:800;font-size:13px">'+c.risk+'/100</span> — '+riskLabel+'</div>'+
+'<div style="margin-bottom:6px">🏪 <b>الشبكة في تونس:</b> '+c.network+'</div>'+
+'<div style="margin-bottom:6px">📅 <b>تاريخ الدخول:</b> '+c.launchTN+'</div>'+
+'<div style="margin-bottom:6px">🔧 <b>الموثوقية:</b> '+c.reliability+'</div>'+
+'<div style="margin-bottom:6px">💰 <b>إعادة البيع بعد 5 سنوات:</b> <span style="color:'+resaleColor+';font-weight:700">'+resaleLabel+'</span> ('+c.resale+'/100)</div>'+
+'<div style="margin-bottom:8px">🔌 <b>قطع الغيار:</b> '+(c.risk>65?"استيراد من الصين (4-8 أسابيع)":c.risk>45?"متوفرة جزئياً":"متوفرة محلياً")+'</div>'+
+'<div style="padding:6px;background:rgba(0,0,0,0.4);border-radius:6px;font-size:10px">'+
+(c.risk<40?"<b style='color:#00d97e'>✅ آمن للشراء:</b> شبكة قوية + قطع غيار + تاريخ موثوق":
+c.risk<65?"<b style='color:#ffd60a'>⚠️ شراء حذر:</b> تأكد من توفر صيانة EV في مدينتك":
+"<b style='color:#ff4757'>❌ مخاطرة عالية:</b> مستحسن فقط لمن يقبل المخاطرة (B2B / تجربة)")+
+'</div></div>';
+}
+$("mContent").innerHTML=
+riskCard+
+'<div class="m-handle"></div>'+
+'<button class="m-close" onclick="closeM()">✕</button>'+
+'<div style="margin-bottom:4px"><span class="car-brand">'+c.brand+'</span></div>'+
+'<h2 style="font-size:20px;margin-bottom:4px">'+c.name+'</h2>'+badge+
+'<div class="car-price" style="font-size:20px;margin-top:4px">'+c.price.toLocaleString()+' د.ت</div>'+
+'<div class="rating" style="margin-top:6px"><span class="stars">'+st+'</span><span class="rating-text">'+rt+'/5</span></div>'+
+'<div class="d-section" style="margin-top:8px">'+
+'<div class="d-row"><span class="d-label">🔋 البطارية</span><span class="d-value">'+c.bat+' kWh</span></div>'+
+'<div class="d-row"><span class="d-label">🛣️ المدى</span><span class="d-value">'+c.range+' km</span></div>'+
+'<div class="d-row"><span class="d-label">⚡ القوة</span><span class="d-value">'+c.power+' ch</span></div>'+
+'<div class="d-row"><span class="d-label">🔌 الشحن</span><span class="d-value" style="font-size:10px">'+c.charge+'</span></div>'+
+'<div class="d-row"><span class="d-label">🪑 مقاعد</span><span class="d-value">'+c.seats+'</span></div>'+
+'<div class="d-row"><span class="d-label">🛡️ الضمان</span><span class="d-value" style="font-size:10px">'+c.warranty+'</span></div>'+
+'<div class="d-row"><span class="d-label">🔋 ضمان بطارية</span><span class="d-value" style="font-size:10px">'+c.bw+'</span></div>'+
+'</div>'+
+batCard+
+weather+
+'<div class="d-section"><h3 style="color:#00d97e;font-size:12px;margin-bottom:4px">✅ مميزات</h3><div style="font-size:11px">'+c.pros+'</div></div>'+
+'<div class="d-section"><h3 style="color:#ff4757;font-size:12px;margin-bottom:4px">⚠️ عيوب</h3><div style="font-size:11px">'+c.cons+'</div></div>'+
+'<div class="rec-card"><div class="rec-title">🎉 بونص بيئي مدمج 10,000 د.ت</div><div class="rec-text">السعر الرسمي: <s>'+c.originalPrice.toLocaleString()+' د.ت</s><br>العرض بعد البونص: <b>'+c.price.toLocaleString()+' د.ت</b> ✅</div></div>';
+$("modal").style.display="flex";
+}
+function closeM(){$("modal").style.display="none"}
+function go(p,btn){
+var items=document.querySelectorAll(".nav-item");
+for(var i=0;i<items.length;i++)items[i].classList.remove("active");
+btn.classList.add("active");
+if(p==="home"){$("list").style.display="block";render()}
+else if(p==="rec"){showRec()}
+else if(p==="info"){showInfo()}
+}
+function showRec(){
+var arr=CARS.slice();
+var cheapest=arr.reduce(function(a,b){return a.price<b.price?a:b});
+var longest=arr.reduce(function(a,b){return a.range>b.range?a:b});
+var powerful=arr.reduce(function(a,b){return a.power>b.power?a:b});
+var bestValue=arr.filter(function(c){return c.price<150000}).sort(function(a,b){return(b.range/a.price)-(a.range/b.price)})[0];
+$("mContent").innerHTML=
+'<div class="m-handle"></div><button class="m-close" onclick="closeM()">✕</button>'+
+'<h2 style="margin-bottom:8px">💡 توصيات ذكية</h2>'+
+'<div class="rec-card"><div class="rec-title">🏆 أفضل قيمة</div><div class="rec-text"><b>'+bestValue.brand+' '+bestValue.name+'</b> — '+bestValue.price.toLocaleString()+' د.ت<br>'+bestValue.range+' km | '+bestValue.bat+' kWh</div></div>'+
+'<div class="rec-card" style="background:linear-gradient(135deg,#ffd60a,#ff9e00)"><div class="rec-title">🛣️ أفضل مدى</div><div class="rec-text"><b>'+longest.brand+' '+longest.name+'</b> — '+longest.price.toLocaleString()+' د.ت<br>'+longest.range+' km</div></div>'+
+'<div class="rec-card" style="background:linear-gradient(135deg,#ff4757,#ff6b81);color:#fff"><div class="rec-title">⚡ الأقوى</div><div class="rec-text"><b>'+powerful.brand+' '+powerful.name+'</b> — '+powerful.price.toLocaleString()+' د.ت<br>'+powerful.power+' ch</div></div>'+
+'<div class="rec-card" style="background:linear-gradient(135deg,#00b4d8,#0077b6)"><div class="rec-title">💰 الأرخص</div><div class="rec-text"><b>'+cheapest.brand+' '+cheapest.name+'</b> — '+cheapest.price.toLocaleString()+' د.ت</div></div>'+
+'<div class="d-section" style="margin-top:8px"><h3 style="color:#00d97e;font-size:12px;margin-bottom:6px">📊 حسب الاحتياج</h3>'+
+'<div style="font-size:11px;line-height:1.7">👨‍👩‍👧 عائلية: Geely EX5 أو BYD Tang (7 places)<br>🏙️ مدينة: Geely EX2 أو BYD Dolphin Surf<br>🛣️ سفر: Hyundai Ioniq 5/6 أو XPENG P7+<br>💼 فاخرة: Volvo EX30 أو IM5<br>💵 أقل ميزانية: Bako Bee<br>🏁 رياضية: MG Cyberster أو IM5 Performance</div></div>'+
+'<div class="d-section" style="margin-top:8px"><h3 style="color:#00d97e;font-size:12px;margin-bottom:6px">🔋 LFP vs NMC في تونس</h3>'+
+'<div style="font-size:11px;line-height:1.7;margin-bottom:8px">🟢 LFP: يتحمل الحر · عمر طويل · أرخص<br>🔵 NMC: مدى أطول · أداء أقوى</div>'+
+'<div style="background:rgba(0,0,0,0.3);padding:8px;border-radius:6px">'+
+'<div style="display:flex;justify-content:space-between;font-size:10px"><span>🟢 LFP - مقاومة الحر</span><span>95%</span></div><div class="bar-progress"><div class="bar-fill" style="width:95%;background:linear-gradient(90deg,#00d97e,#00b4d8)"></div></div>'+
+'<div style="display:flex;justify-content:space-between;font-size:10px"><span>🟢 LFP - العمر</span><span>90%</span></div><div class="bar-progress"><div class="bar-fill" style="width:90%;background:linear-gradient(90deg,#00d97e,#00b4d8)"></div></div>'+
+'<div style="display:flex;justify-content:space-between;font-size:10px"><span>🟢 LFP - السعر</span><span>90%</span></div><div class="bar-progress"><div class="bar-fill" style="width:90%;background:linear-gradient(90deg,#00d97e,#00b4d8)"></div></div>'+
+'<div style="display:flex;justify-content:space-between;font-size:10px"><span>🔵 NMC - المدى</span><span>85%</span></div><div class="bar-progress"><div class="bar-fill" style="width:85%;background:linear-gradient(90deg,#00b4d8,#0077b6)"></div></div>'+
+'<div style="display:flex;justify-content:space-between;font-size:10px"><span>🔵 NMC - مقاومة الحر</span><span>55%</span></div><div class="bar-progress"><div class="bar-fill" style="width:55%;background:linear-gradient(90deg,#ff9e00,#ff4757)"></div></div>'+
+'</div>'+
+'<div style="margin-top:8px;padding:6px;background:rgba(0,217,126,0.1);border:1px solid #00d97e;border-radius:6px;font-size:10px;text-align:center">🏆 <b>توصية:</b> اختر LFP للعائلات (BYD/Geely/Chery/Deepal). اختر NMC للمدى الطويل (Hyundai/KIA/IM/XPENG).</div>'+
+'</div>';
+$("modal").style.display="flex";
+}
+function showInfo(){
+$("mContent").innerHTML=
+'<div class="m-handle"></div><button class="m-close" onclick="closeM()">✕</button>'+
+'<h2 style="margin-bottom:8px">ℹ️ معلومات تهمك</h2>'+
+'<div class="d-section"><h3 style="color:#00d97e;font-size:12px;margin-bottom:6px">🇹🇳 الحوافز الحكومية</h3>'+
+'<div style="font-size:11px;line-height:1.7">✅ سيارات كهربائية: إعفاء كلي من الديوانة<br>✅ سيارات هجينة PHEV: تخفيض 50% على المعاليم<br>✅ <b>بونص بيئي: 10,000 د.ت</b> من صندوق الانتقال الطاقي<br>✅ TVA 7% فقط على الكهربائية</div></div>'+
+'<div class="d-section"><h3 style="color:#00d97e;font-size:12px;margin-bottom:6px">🔌 محطات الشحن</h3>'+
+'<div style="font-size:11px;line-height:1.7">⚡ منزلي (AC 7-11 kW): 6-8 ساعات<br>⚡ سريع (DC 50-150 kW): 30-60 دقيقة<br>⚡ فائق (DC 200+ kW): 18-25 دقيقة<br>📍 الشبكة في تطور: تونس، سوسة، صفاقس، نابل</div></div>'+
+'<div class="d-section"><h3 style="color:#00d97e;font-size:12px;margin-bottom:6px">💡 نصائح قبل الشراء</h3>'+
+'<div style="font-size:11px;line-height:1.7">1. احسب مسافة تنقلك اليومية (×2)<br>2. تأكد من توفر مركز خدمة في مدينتك<br>3. شاحن DC: CCS2 هو المعيار<br>4. حافظ على البطارية 20-80%<br>5. ثبّت Wallbox في البيت<br>6. استفد من البونص 10,000 د.ت</div></div>'+
+'<div class="d-section"><h3 style="color:#00d97e;font-size:12px;margin-bottom:6px">💰 التكلفة الشهرية</h3>'+
+'<div style="font-size:11px;line-height:1.7">⛽ بنزين: ~15 د.ت/100كم (6 لتر × 2.5 د.ت)<br>⚡ كهرباء: ~10 د.ت/100كم<br>💰 <b>التوفير: 5 د.ت لكل 100 كم</b><br>📅 سنوياً (15,000 كم): توفير 750 د.ت/سنة</div></div>'+
+'<div class="d-section" style="border:1px solid #ff4757;background:rgba(255,71,87,0.05)"><h3 style="color:#ff4757;font-size:13px;margin-bottom:8px">📰 آخر أخبار استدعاءات السيارات الكهربائية (2025-2026)</h3>'+
+'<div style="font-size:10px;line-height:1.6">'+
+'<div style="margin-bottom:6px;padding:6px;background:rgba(255,71,87,0.1);border-radius:4px">🔴 <b>BYD يستدعي 115,000 سيارة</b> (Tang + Yuan Pro) بسبب عيوب تصميم + مشاكل بطارية. 2025/10</div>'+
+'<div style="margin-bottom:6px;padding:6px;background:rgba(255,71,87,0.1);border-radius:4px">🔴 <b>BYD يستدعي 88,981 Qin Plus DM-i</b> بسبب عيب في تصنيع البطاريات. 2025/11</div>'+
+'<div style="margin-bottom:6px;padding:6px;background:rgba(255,71,87,0.1);border-radius:4px">🔴 <b>BYD يستدعي 97,000 Dolphin + Yuan Plus</b> بسبب عيب في وحدة تحكم المقود. 2024/09</div>'+
+'<div style="margin-bottom:6px;padding:6px;background:rgba(255,165,0,0.1);border-radius:4px">🟠 <b>Tesla تستدعي 200,000 سيارة</b> (Model 3/Y/S/X + 173 Cybertruck لفرامل). 2025</div>'+
+'<div style="margin-bottom:6px;padding:6px;background:rgba(255,165,0,0.1);border-radius:4px">🟠 <b>Tesla تستدعي 12,963 سيارة</b> (2025 Model 3 + 2026 Model Y) بسبب عيب contactor. 2025/10</div>'+
+'<div style="margin-bottom:6px;padding:6px;background:rgba(255,165,0,0.1);border-radius:4px">🟠 <b>Toyota/Lexus/Subaru تستدعي 21,000 سيارة</b> (bZ4X + Solterra + RZ) بسبب خلل ECU. 2026/06</div>'+
+'<div style="margin-bottom:6px;padding:6px;background:rgba(255,165,0,0.1);border-radius:4px">🟠 <b>نيسان تستدعي 19,077 سيارة كهربائية</b> بسبب خطر حريق من الشحن السريع. 2025</div>'+
+'<div style="margin-bottom:6px;padding:6px;background:rgba(255,71,87,0.1);border-radius:4px">🔴 <b>BYD: حريق كبير</b> في موقف سيارات Shenzhen (14 أبريل 2026) - السبب: أعمال بناء</div>'+
+'<div style="margin-top:6px;padding:6px;background:rgba(0,0,0,0.3);border-radius:4px">📊 <b>إجمالي استدعاءات BYD منذ 2024:</b> ~300,000 سيارة (3 حملات كبيرة)</div>'+
+'</div></div>'+
+'<div class="d-section" style="border:1px solid #ff9e00"><h3 style="color:#ff9e00;font-size:12px;margin-bottom:6px">⚠️ مشاكل BYD Atto 3 المبلغ عنها</h3>'+
+'<div style="font-size:10px;line-height:1.6">❌ <b>أعطال إلكترونية:</b> bugs في نظام المعلومات والترفيه<br>❌ <b>استنزاف بطارية 12V</b> (البطارية المساعدة)<br>❌ <b>التدفئة/التكييف:</b> خلل في تفعيل التسخين<br>❌ <b>المدى الحقيقي:</b> 300-350 كم بدلاً من 420 كم (LFP)<br>✅ <b>الموثوقية الميكانيكية:</b> جيدة<br>⚠️ <b>الصيانة:</b> قطع غيار تحتاج وقت</div></div>'+
+'<div class="d-section" style="border:1px solid #00d97e"><h3 style="color:#00d97e;font-size:12px;margin-bottom:6px">💡 ماذا يعني للمشتري التونسي؟</h3>'+
+'<div style="font-size:10px;line-height:1.6">✅ <b>الجيد:</b> BYD يصلح مجاناً، يحدّث OTA، يحترم الضمان<br>✅ <b>الوضع في تونس:</b> الموديلات 2024+ أقل عرضة للمشاكل<br>⚠️ <b>تنبيه:</b> اشترِ من وكيل معتمد فقط (Helios Cars, STAFIM)<br>⚠️ <b>احذر:</b> استيراد أفراد = لا ضمان ولا دعم<br>✅ <b>الشبكة تتوسع:</b> Helios Cars يضيف مراكز خدمة</div></div>'+
+'<div class="d-section" style="border:1px solid #00d97e;text-align:center;color:#00d97e;font-size:10px">⚡ تطبيق خاص - 2026 🇹🇳<br>39 موديل - آخر تحديث: '+new Date().toLocaleDateString("ar-TN")+'</div>';
+$("modal").style.display="flex";
+}
+function toggleLang(){
+lang=lang==="ar"?"fr":"ar";
+document.documentElement.lang=lang;
+document.documentElement.dir=lang==="ar"?"rtl":"ltr";
+buildTabs();render();
+}
+init();
+</script>
+</body>
+</html>
